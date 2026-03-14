@@ -1,10 +1,13 @@
 import type { Metadata } from "next"
 import localFont from "next/font/local"
+import Script from "next/script"
 import "./globals.css"
 
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import { FloatingButtons } from "@/components/layout/floating-buttons"
+
+const GA_ID = "G-GZ83K58NP8"
 
 const pretendard = localFont({
   src: [
@@ -48,6 +51,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <head>
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_ID}');
+          `}
+        </Script>
+      </head>
       <body className={`${pretendard.variable} antialiased`}>
         <script
           type="application/ld+json"
