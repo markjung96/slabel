@@ -56,10 +56,10 @@ export function Header() {
           <Image
             src={siteConfig.logo}
             alt={siteConfig.name}
-            width={120}
+            width={36}
             height={36}
             priority
-            className="h-8 w-auto lg:h-9"
+            className="size-8 lg:size-9 rounded-full"
           />
         </Link>
 
@@ -139,9 +139,9 @@ export function Header() {
                   <Image
                     src={siteConfig.logo}
                     alt={siteConfig.name}
-                    width={100}
-                    height={30}
-                    className="h-7 w-auto"
+                    width={28}
+                    height={28}
+                    className="size-7 rounded-full"
                   />
                 </Link>
               </SheetTitle>

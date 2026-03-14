@@ -4,7 +4,7 @@ export const siteConfig: SiteConfig = {
   name: "스라밸학원",
   description: "스라밸학원 - Study Life Balance. 체계적인 PT 시스템과 타이머 관리로 학생 개개인에게 최적화된 수학 교육을 제공합니다.",
   url: "https://스라밸.com",
-  logo: "/images/logo.svg",
+  logo: "/images/logo.png",
   address: "경기 용인시 기흥구 흥덕2로 85 606호",
   phone: "010-3977-1695",
   email: "slabel@example.com",
