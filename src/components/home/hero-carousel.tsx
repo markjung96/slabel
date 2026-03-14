@@ -1,105 +1,113 @@
 "use client"
 
-import { useCallback, useEffect, useState } from "react"
-import useEmblaCarousel from "embla-carousel-react"
-import Autoplay from "embla-carousel-autoplay"
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import { heroSlides } from "@/data/home"
+import Link from "next/link"
+import { motion } from "framer-motion"
+import { ArrowRight, Play } from "lucide-react"
+import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
-const slideGradients = [
-  "from-blue-900 to-indigo-800",
-  "from-emerald-900 to-teal-800",
-  "from-violet-900 to-purple-800",
-]
-
 export function HeroCarousel() {
-  const autoplay = Autoplay({ delay: 4500, stopOnInteraction: true })
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [autoplay])
-  const [selectedIndex, setSelectedIndex] = useState(0)
-
-  useEffect(() => {
-    if (!emblaApi) return
-    const onSelect = () => setSelectedIndex(emblaApi.selectedScrollSnap())
-    emblaApi.on("select", onSelect)
-    return () => { emblaApi.off("select", onSelect) }
-  }, [emblaApi])
-
-  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi])
-  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi])
-  const scrollTo = useCallback(
-    (index: number) => emblaApi?.scrollTo(index),
-    [emblaApi]
-  )
-
-  const handleMouseLeave = useCallback(() => {
-    autoplay.reset()
-    autoplay.play()
-  }, [autoplay])
-
   return (
-    <section
-      className="relative w-full overflow-hidden h-[60vh] md:h-[70vh]"
-      onMouseLeave={handleMouseLeave}
-    >
-      <div ref={emblaRef} className="h-full">
-        <div className="flex h-full">
-          {heroSlides.map((slide, index) => (
-            <div key={slide.id} className="relative flex-none w-full h-full">
-              <div
-                className={cn(
-                  "absolute inset-0 bg-gradient-to-br",
-                  slideGradients[index % slideGradients.length]
-                )}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-              <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center text-white">
-                <h1
-                  className="text-4xl font-bold tracking-tight md:text-6xl"
-                  style={{ textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}
-                >
-                  {slide.title}
-                </h1>
-                <p
-                  className="mt-4 text-lg md:text-2xl text-white/90"
-                  style={{ textShadow: "0 1px 4px rgba(0,0,0,0.5)" }}
-                >
-                  {slide.subtitle}
+    <section className="relative w-full overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-secondary/50" />
+      
+      <div className="container relative mx-auto px-4">
+        <div className="flex min-h-[85vh] flex-col items-center justify-center py-20 lg:py-32">
+          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mb-8"
+          >
+            <span className="inline-flex items-center gap-2 rounded-full bg-accent/10 px-4 py-2 text-sm font-medium text-accent ring-1 ring-accent/20">
+              <span className="relative flex size-2">
+                <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-75" />
+                <span className="relative inline-flex size-2 rounded-full bg-accent" />
+              </span>
+              2025 신규 등록 상담 진행 중
+            </span>
+          </motion.div>
+
+          {/* Main Heading */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="max-w-4xl text-balance text-center text-4xl font-bold tracking-tight text-foreground md:text-5xl lg:text-6xl xl:text-7xl"
+          >
+            체계적인 수학 교육으로
+            <br />
+            <span className="text-accent">성적 향상</span>을 이끌어냅니다
+          </motion.h1>
+
+          {/* Subtitle */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mt-6 max-w-2xl text-pretty text-center text-lg text-muted-foreground md:text-xl"
+          >
+            학생 개개인에게 최적화된 맞춤형 커리큘럼과 독자적 PT 시스템으로
+            자기주도 학습 능력을 키워드립니다.
+          </motion.p>
+
+          {/* CTA Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="mt-10 flex flex-col items-center gap-4 sm:flex-row"
+          >
+            <Link
+              href="/consultation"
+              className={cn(
+                buttonVariants({ size: "lg" }),
+                "group gap-2 bg-foreground px-8 text-background hover:bg-foreground/90"
+              )}
+            >
+              상담 신청하기
+              <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+            <Link
+              href="/pt-system"
+              className={cn(
+                buttonVariants({ variant: "outline", size: "lg" }),
+                "gap-2 border-foreground/20 px-8"
+              )}
+            >
+              <Play className="size-4" />
+              PT 시스템 알아보기
+            </Link>
+          </motion.div>
+
+          {/* Stats */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="mt-16 grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-12"
+          >
+            {[
+              { value: "10+", label: "년 교육 경력" },
+              { value: "1:1", label: "맞춤 PT 지도" },
+              { value: "98%", label: "학부모 만족도" },
+              { value: "소수정예", label: "집중 관리" },
+            ].map((stat, index) => (
+              <div key={index} className="text-center">
+                <p className="text-3xl font-bold text-foreground md:text-4xl">
+                  {stat.value}
                 </p>
+                <p className="mt-1 text-sm text-muted-foreground">{stat.label}</p>
               </div>
-            </div>
-          ))}
+            ))}
+          </motion.div>
         </div>
       </div>
 
-      <button
-        onClick={scrollPrev}
-        className="absolute left-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/30 p-2 text-white backdrop-blur-sm transition-colors hover:bg-black/50"
-        aria-label="이전 슬라이드"
-      >
-        <ChevronLeft className="size-6" />
-      </button>
-      <button
-        onClick={scrollNext}
-        className="absolute right-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/30 p-2 text-white backdrop-blur-sm transition-colors hover:bg-black/50"
-        aria-label="다음 슬라이드"
-      >
-        <ChevronRight className="size-6" />
-      </button>
-
-      <div className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 gap-2">
-        {heroSlides.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => scrollTo(i)}
-            className={cn(
-              "h-2 rounded-full transition-all",
-              i === selectedIndex ? "w-6 bg-white" : "w-2 bg-white/50"
-            )}
-            aria-label={`슬라이드 ${i + 1}로 이동`}
-          />
-        ))}
-      </div>
+      {/* Bottom fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-secondary/50 to-transparent" />
     </section>
   )
 }
