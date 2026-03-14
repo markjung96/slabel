@@ -12,16 +12,12 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <main>
+    <>
       <HeroCarousel />
-      <section className="py-20">
-        <IntroCards />
-      </section>
+      <IntroCards />
       <PtHighlight />
-      <section className="py-20">
-        <TimetablePreview />
-      </section>
+      <TimetablePreview />
       <ConsultationCta />
-    </main>
+    </>
   )
 }
