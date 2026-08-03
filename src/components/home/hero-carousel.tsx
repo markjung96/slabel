@@ -8,13 +8,8 @@ import { cn } from "@/lib/utils"
 
 export function HeroCarousel() {
   return (
+    /* radial-gradient 블롭 2개 제거 — 어느 SaaS 랜딩에나 있는 장식이라 특징이 없다 */
     <section className="relative w-full overflow-hidden bg-[#f8f6f3]">
-      {/* Background Pattern */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(34,87,122,0.08)_0%,transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(59,130,117,0.06)_0%,transparent_50%)]" />
-      </div>
-      
       <div className="container relative mx-auto px-4">
         <div className="flex min-h-[85vh] flex-col items-center justify-center py-20 lg:py-32">
           {/* Badge */}
@@ -43,7 +38,8 @@ export function HeroCarousel() {
           >
             체계적인 수학 교육으로
             <br />
-            <span className="bg-gradient-to-r from-[#22577a] to-[#3b8275] bg-clip-text text-transparent">성적 향상</span>을 이끌어냅니다
+            {/* 그라디언트 텍스트(bg-clip-text) 제거 — 템플릿 티가 가장 크게 나는 요소다 */}
+            <span className="text-[#22577a]">성적 향상</span>을 이끌어냅니다
           </motion.h1>
 
           {/* Subtitle */}

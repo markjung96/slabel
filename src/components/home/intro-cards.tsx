@@ -1,86 +1,46 @@
-"use client"
-
-import { GraduationCap, Timer, TrendingUp, Users, type LucideIcon } from "lucide-react"
-import { motion } from "framer-motion"
 import { featureCards } from "@/data/home"
 
-const iconMap: Record<string, LucideIcon> = {
-  GraduationCap,
-  Timer,
-  TrendingUp,
-  Users,
-}
-
+/**
+ * 제거한 것들 (REDESIGN.md 1-2장의 클리셰 목록):
+ * - 영어 eyebrow "Why Choose Us"
+ * - 우상단 대형 번호 워터마크 01 02 03 04
+ * - lucide 아이콘 4개 격자 (졸업모자·타이머·상승그래프·사람)
+ * - 스크롤 fade-in-up (히어로 한 곳만 남긴다)
+ * - "use client" — 모션이 빠지면서 클라이언트 컴포넌트일 이유가 없어졌다
+ *
+ * 남은 과제: 카피 자체가 아직 일반적이다.
+ * "맞춤형 커리큘럼 / PT 시스템 / 성적 향상 / 소수 정예"는 경쟁 학원도 전부 쓴다.
+ * 원장님 답변(QUESTIONS.md Q4·Q5·Q6)이 오면 실제로 하는 일로 교체할 것.
+ */
 export function IntroCards() {
   return (
-    <section className="relative overflow-hidden bg-card py-24 lg:py-32">
+    <section className="bg-card py-24 lg:py-32">
       <div className="container mx-auto px-4">
-        {/* Section Header */}
         <div className="mx-auto mb-16 max-w-2xl text-center">
-          <motion.span
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-4 inline-block text-sm font-semibold uppercase tracking-wider text-accent"
-          >
-            Why Choose Us
-          </motion.span>
-          <motion.h2
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl"
-          >
+          <h2 className="text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">
             왜 스라밸학원인가요?
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="mt-4 text-pretty text-muted-foreground md:text-lg"
-          >
+          </h2>
+          <p className="mt-4 text-pretty text-muted-foreground md:text-lg">
             학생 한 명 한 명에게 집중하는 체계적인 교육 시스템으로
             <br className="hidden sm:block" />
             진정한 학습 능력 향상을 이끌어냅니다.
-          </motion.p>
+          </p>
         </div>
 
-        {/* Feature Cards */}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {featureCards.map((card, index) => {
-            const Icon = iconMap[card.icon] ?? GraduationCap
-            return (
-              <motion.div
-                key={card.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-              >
-                <div className="group relative h-full rounded-2xl border border-border bg-background p-8 transition-all duration-300 hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5">
-                  {/* Number indicator */}
-                  <span className="absolute right-6 top-6 text-5xl font-bold text-muted/30">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  
-                  {/* Icon */}
-                  <div className="mb-6 flex size-14 items-center justify-center rounded-xl bg-accent/10 text-accent transition-colors group-hover:bg-accent group-hover:text-accent-foreground">
-                    <Icon className="size-6" />
-                  </div>
-                  
-                  {/* Content */}
-                  <h3 className="mb-3 text-xl font-semibold text-foreground">
-                    {card.title}
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {card.description}
-                  </p>
-                </div>
-              </motion.div>
-            )
-          })}
+          {featureCards.map((card) => (
+            <div
+              key={card.title}
+              className="h-full rounded-2xl border border-border bg-background p-8"
+            >
+              <h3 className="mb-3 text-xl font-semibold text-foreground">
+                {card.title}
+              </h3>
+              <p className="leading-relaxed text-muted-foreground">
+                {card.description}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

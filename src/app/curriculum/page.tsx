@@ -3,7 +3,7 @@ import Link from "next/link"
 import { BookOpenIcon, Phone } from "lucide-react"
 
 import { CurriculumGallery } from "@/components/curriculum/curriculum-gallery"
-import { buttonVariants } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button-variants"
 import { listImages } from "@/lib/storage"
 import { siteConfig } from "@/data/site"
 import { cn } from "@/lib/utils"
