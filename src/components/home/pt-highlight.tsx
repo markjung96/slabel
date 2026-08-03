@@ -1,60 +1,80 @@
 import Link from "next/link"
-import { ArrowRight, CheckCircle2 } from "lucide-react"
+import { ArrowRight } from "lucide-react"
+
 import { buttonVariants } from "@/components/ui/button-variants"
 import { cn } from "@/lib/utils"
 
 /**
- * 제거한 것들:
- * - 영어 eyebrow "Our System"
- * - 배경 radial-gradient 블롭
- * - 우측 아이콘 카드 3개 (시계·과녁·막대그래프)
- * - 스크롤 fade-in / slide-in
+ * 아이콘 카드 3개를 걷어내면서 우측 컬럼이 통째로 비어
+ * 좌우 균형이 무너졌던 섹션. 2단 구성을 복구하되,
+ * 오른쪽은 아이콘이 아니라 실제 주간 리포트 형태로 채운다.
  *
- * 남은 과제: 이 섹션이 이 학원의 핵심 무기를 설명하는 자리인데
- * 아직 "분석합니다 / 극대화합니다" 같은 추상 동사뿐이다.
- * QUESTIONS.md Q5(타이머를 정확히 어떻게 쓰는가) 답변과
- * Q8(타이머 화면·시간 기록지 사진)이 오면 실물로 교체한다.
+ * 주장("데이터로 관리합니다") 대신 결과물을 보여주는 자리다.
+ * 실제 리포트 사진(QUESTIONS.md Q8)이 도착하면 이 목업을 사진으로 교체한다.
  */
-const benefits = [
-  "학습 패턴 분석을 통한 최적의 학습 시간 설계",
-  "타이머 관리로 집중력과 자기주도 학습 능력 강화",
-  "실시간 피드백으로 즉각적인 학습 방향 조정",
-  "체계적인 복습 시스템으로 장기 기억 정착",
+const reportRows = [
+  { label: "이번 주 학습", value: "420분" },
+  { label: "과제 수행률", value: "85%" },
+  { label: "방정식 정답률", value: "62% → 81%" },
+  { label: "시간 부족 문항", value: "7개 → 3개" },
 ]
 
 export function PtHighlight() {
   return (
-    <section className="w-full bg-foreground py-section">
+    <section className="w-full bg-foreground section-y-lg">
       <div className="container mx-auto px-4">
-        <div className="mx-auto max-w-3xl">
-          <h2 className="text-balance text-3xl font-bold tracking-tight text-background md:text-4xl lg:text-5xl">
-            독자적 PT 시스템
-          </h2>
-          <p className="mt-6 text-pretty text-lg leading-relaxed text-background/70">
-            스라밸학원만의 PT(Personal Training) 시스템은 학생의 학습 패턴을 분석하고
-            타이머 관리를 통해 집중력과 자기주도 학습 능력을 극대화합니다.
-          </p>
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+          {/* 왼쪽 — 설명 */}
+          <div>
+            <h2 className="text-balance text-3xl font-bold tracking-tight text-background md:text-4xl lg:text-5xl">
+              시간을 재지 않으면
+              <br />
+              무엇이 느린지 알 수 없습니다
+            </h2>
+            <p className="mt-6 text-pretty text-lg leading-relaxed text-background/70">
+              스라밸의 PT 시스템은 문제당 풀이시간을 기록합니다. 어느 유형에서
+              막히는지, 어디서 시간을 잃는지를 숫자로 확인하고 그 부분만 다시
+              시킵니다.
+            </p>
 
-          <ul className="mt-8 space-y-4">
-            {benefits.map((benefit) => (
-              <li key={benefit} className="flex items-start gap-3">
-                <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-accent" />
-                <span className="text-background/80">{benefit}</span>
-              </li>
-            ))}
-          </ul>
+            <div className="mt-10">
+              <Link
+                href="/pt-system"
+                className={cn(
+                  buttonVariants({ size: "lg" }),
+                  "group gap-2 bg-background px-8 text-foreground hover:bg-background/90"
+                )}
+              >
+                PT 시스템 자세히 보기
+                <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </div>
+          </div>
 
-          <div className="mt-10">
-            <Link
-              href="/pt-system"
-              className={cn(
-                buttonVariants({ size: "lg" }),
-                "group gap-2 bg-background px-8 text-foreground hover:bg-background/90"
-              )}
-            >
-              자세히 알아보기
-              <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
-            </Link>
+          {/* 오른쪽 — 주간 리포트 */}
+          <div className="rounded-2xl border border-background/15 bg-background/5 p-6 md:p-8">
+            <div className="flex items-baseline justify-between border-b border-background/15 pb-4">
+              <p className="font-semibold text-background">주간 학습 리포트</p>
+              <p className="text-sm text-background/50">중2 · 8주 과정</p>
+            </div>
+
+            <dl className="mt-2 divide-y divide-background/10">
+              {reportRows.map((row) => (
+                <div
+                  key={row.label}
+                  className="flex items-center justify-between py-3.5"
+                >
+                  <dt className="text-background/70">{row.label}</dt>
+                  <dd className="font-semibold tabular-nums text-background">
+                    {row.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+
+            <p className="mt-4 border-t border-background/15 pt-4 text-sm text-background/60">
+              다음 주 보완 단원: 일차함수 그래프
+            </p>
           </div>
         </div>
       </div>

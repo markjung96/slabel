@@ -1,6 +1,5 @@
 import type { Metadata } from "next"
 import { HeroCarousel } from "@/components/home/hero-carousel"
-import { IntroCards } from "@/components/home/intro-cards"
 import { PtHighlight } from "@/components/home/pt-highlight"
 import { TimetablePreview } from "@/components/home/timetable-preview"
 import { ConsultationCta } from "@/components/home/consultation-cta"
@@ -28,26 +27,24 @@ export default async function HomePage() {
   /*
    * 섹션 순서는 학부모의 질문 순서를 따른다 (REDESIGN.md 3-3).
    *   1. 우리 애한테 맞나?   → TargetProfiles
-   *   2. 뭘 어떻게 하는데?   → ProgramSteps
+   *   2. 뭘 어떻게 하는데?   → PtHighlight, ProgramSteps
    *   3. 진짜 되나?          → EvidenceSection
-   *   4. 얼마고 언제?        → ClassOffers
+   *   4. 얼마고 언제?        → ClassOffers, TimetablePreview
    *   5. 누가 가르치나?      → Instructors
    *
-   * 새 섹션들은 데이터가 비어 있으면 스스로 null을 반환한다.
-   * 원장님 답변이 src/data/content.ts에 채워지는 순간 자동으로 나타나고,
-   * 그때 아래 IntroCards / PtHighlight의 일반론 카피를 걷어낸다.
+   * IntroCards("맞춤형 커리큘럼 / 소수 정예" 4개 카드)는 제거했다.
+   * 경쟁 학원이 전부 쓰는 문구라 차별점이 없고, 위 섹션들이 같은 질문에
+   * 훨씬 구체적으로 답하게 되면서 남겨둘 이유가 없어졌다.
+   *
+   * 배경색은 밝게/어둡게를 번갈아 두어 섹션 경계가 읽히게 한다.
    */
   return (
     <>
       <HeroCarousel />
       <TargetProfiles />
+      <PtHighlight />
       <ProgramSteps />
       <EvidenceSection />
-
-      {/* 아래 두 섹션은 위 섹션들이 채워지면 교체 대상이다 */}
-      <IntroCards />
-      <PtHighlight />
-
       <ClassOffers />
       <TimetablePreview middleImage={middleImage} highImage={highImage} />
       <Instructors />

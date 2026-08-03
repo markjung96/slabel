@@ -19,9 +19,9 @@ export function ClassOffers() {
   const won = new Intl.NumberFormat("ko-KR")
 
   return (
-    <section className="bg-card py-section">
+    <section className="bg-background section-y">
       <div className="container mx-auto px-4">
-        <div className="mx-auto mb-14 max-w-2xl text-center">
+        <div className="section-head mx-auto max-w-2xl text-center">
           <h2 className="text-balance text-3xl font-bold tracking-tight md:text-4xl">
             반 · 시간 · 비용
           </h2>
@@ -55,17 +55,23 @@ export function ClassOffers() {
               )}
 
               {offer.seatsLeft !== null && (
-                <p className="mt-5 text-sm font-medium text-primary">
+                <p className="mt-5 text-sm font-medium text-accent">
                   잔여 {offer.seatsLeft}자리
                 </p>
               )}
 
-              <Link
-                href="/consultation"
-                className={cn(buttonVariants({ size: "sm" }), "mt-6 w-full")}
-              >
-                이 반 상담 신청
-              </Link>
+              {/*
+                카드는 flex flex-col이므로 mt-auto가 버튼을 바닥으로 민다.
+                내용 길이가 달라도 버튼 줄이 맞는다.
+              */}
+              <div className="mt-auto pt-6">
+                <Link
+                  href="/consultation"
+                  className={cn(buttonVariants({ size: "sm" }), "w-full")}
+                >
+                  이 반 상담 신청
+                </Link>
+              </div>
             </div>
           ))}
         </div>

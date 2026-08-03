@@ -7,6 +7,7 @@ import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import { FloatingButtons } from "@/components/layout/floating-buttons"
 import { SiteChrome } from "@/components/layout/site-chrome"
+import { PlaceholderBanner } from "@/components/layout/placeholder-banner"
 
 const GA_ID = "G-GZ83K58NP8"
 
@@ -115,6 +116,7 @@ export default function RootLayout({
           본문으로 건너뛰기
         </a>
         <SiteChrome>
+          <PlaceholderBanner />
           <Header />
         </SiteChrome>
         <main id="main-content">{children}</main>

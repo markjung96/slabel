@@ -15,9 +15,9 @@ export function TargetProfiles() {
   if (targetProfiles.length === 0) return null
 
   return (
-    <section className="bg-background py-section">
+    <section className="bg-card section-y">
       <div className="container mx-auto px-4">
-        <div className="mx-auto mb-14 max-w-2xl text-center">
+        <div className="section-head mx-auto max-w-2xl text-center">
           <h2 className="text-balance text-3xl font-bold tracking-tight md:text-4xl">
             이런 학생이라면
           </h2>

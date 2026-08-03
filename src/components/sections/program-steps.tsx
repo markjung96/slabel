@@ -15,9 +15,9 @@ export function ProgramSteps() {
   if (programSteps.length === 0) return null
 
   return (
-    <section className="bg-card py-section-lg">
+    <section className="bg-background section-y-lg">
       <div className="container mx-auto px-4">
-        <div className="mx-auto mb-14 max-w-2xl text-center">
+        <div className="section-head mx-auto max-w-2xl text-center">
           <h2 className="text-balance text-3xl font-bold tracking-tight md:text-4xl">
             8주 동안 일어나는 일
           </h2>

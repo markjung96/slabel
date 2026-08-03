@@ -57,10 +57,10 @@ function PreviewPanel({ image, label }: { image: string | null; label: string })
 
 export function TimetablePreview({ middleImage, highImage }: TimetablePreviewProps) {
   return (
-    <section className="relative overflow-hidden bg-card py-section-sm">
+    <section className="relative overflow-hidden bg-card section-y-sm">
       <div className="container mx-auto px-4">
         {/* 영어 eyebrow "Schedule"과 스크롤 모션 제거 */}
-        <div className="mx-auto mb-12 max-w-2xl text-center">
+        <div className="section-head mx-auto max-w-2xl text-center">
           <h2 className="text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">
             학년별 시간표
           </h2>

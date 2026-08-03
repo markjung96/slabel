@@ -20,7 +20,7 @@ export function HeroCarousel() {
   return (
     <section className="relative w-full overflow-hidden bg-background">
       <div className="container relative mx-auto px-4">
-        <div className="flex min-h-[85vh] flex-col items-center justify-center py-section lg:py-section-lg">
+        <div className="flex min-h-[85vh] flex-col items-center justify-center py-24 lg:py-32">
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
