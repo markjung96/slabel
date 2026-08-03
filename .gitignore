@@ -52,3 +52,6 @@ public/images/uploads/
 # tmp
 tmp.txt
 !.env.example
+
+# 로컬 개발용 상담 신청 저장소 (개인정보 포함)
+.data/

@@ -6,6 +6,7 @@ import "./globals.css"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import { FloatingButtons } from "@/components/layout/floating-buttons"
+import { SiteChrome } from "@/components/layout/site-chrome"
 
 const GA_ID = "G-GZ83K58NP8"
 
@@ -113,10 +114,14 @@ export default function RootLayout({
         >
           본문으로 건너뛰기
         </a>
-        <Header />
+        <SiteChrome>
+          <Header />
+        </SiteChrome>
         <main id="main-content">{children}</main>
-        <Footer />
-        <FloatingButtons />
+        <SiteChrome>
+          <Footer />
+          <FloatingButtons />
+        </SiteChrome>
       </body>
     </html>
   )

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 
 import { consultationSchema } from "@/lib/validators"
 import { sendConsultationEmail } from "@/lib/email"
+import { saveLead } from "@/lib/leads"
 import type { ConsultationFormData } from "@/types"
 
 const rateLimitMap = new Map<string, number[]>()
@@ -66,12 +67,28 @@ export async function POST(request: NextRequest) {
       privacyConsent: result.data.privacyConsent,
     }
 
+    /*
+     * 순서가 중요하다. 메일보다 저장이 먼저다.
+     * 메일 발송은 언제든 실패할 수 있는데(키 만료, 도메인 인증, 스팸함),
+     * 저장을 먼저 해두면 알림을 놓쳐도 관리자 화면에서 문의를 되찾을 수 있다.
+     */
     const emailResult = await sendConsultationEmail(data)
-    if (!emailResult.success) {
+    const saved = await saveLead(data, emailResult.success).catch((err) => {
+      console.error("[Lead] 저장 실패", err)
+      return null
+    })
+
+    /* 저장도 실패하고 메일도 실패했으면 문의가 사라진다. 이때만 에러를 낸다. */
+    if (!saved && !emailResult.success) {
       return NextResponse.json(
         { success: false, error: emailResult.error ?? "상담 신청 처리 중 오류가 발생했습니다." },
         { status: 500 }
       )
+    }
+
+    if (!emailResult.success) {
+      /* 알림은 못 갔지만 신청은 보관됐다. 학부모에게는 정상 접수로 안내한다. */
+      console.error("[Lead] 알림 메일 실패 — 관리자 화면에서 확인 필요", saved?.id)
     }
 
     return NextResponse.json({ success: true, message: "상담 신청이 완료되었습니다." })

@@ -1,10 +1,12 @@
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { LayoutDashboard, Clock, BookOpen, LogOut } from "lucide-react"
+import { LayoutDashboard, Clock, BookOpen, Inbox, LogOut } from "lucide-react"
 
 const navItems = [
   { href: "/admin", label: "대시보드", icon: LayoutDashboard },
+  /* 상담 신청이 가장 중요하므로 위쪽에 둔다 */
+  { href: "/admin/leads", label: "상담 신청", icon: Inbox },
   { href: "/admin/timetable", label: "시간표 관리", icon: Clock },
   { href: "/admin/curriculum", label: "커리큘럼 관리", icon: BookOpen },
 ]
