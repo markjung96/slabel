@@ -32,7 +32,7 @@ export function FloatingButtons() {
       label: "카카오톡 상담",
       Icon: MessageCircle,
       style: { backgroundColor: "#FEE500", color: "#000000" },
-      textClass: "",
+      className: "",
     },
     siteConfig.naverTalkUrl && {
       key: "naver",
@@ -41,16 +41,19 @@ export function FloatingButtons() {
       label: "네이버 톡톡",
       Icon: MessageSquare,
       style: { backgroundColor: "#03C75A" },
-      textClass: "text-white",
+      className: "text-white",
     },
+    /*
+     * 카카오(#FEE500)·네이버(#03C75A)는 외부 브랜드 색이라 하드코딩이 맞다.
+     * 우리 버튼은 테마 토큰을 쓴다 — 사이트 팔레트와 어긋나면 안 된다.
+     */
     {
       key: "tel",
       href: `tel:${siteConfig.phone}`,
       external: false,
       label: "전화 상담",
       Icon: Phone,
-      style: { backgroundColor: "#22577a" },
-      textClass: "text-white",
+      className: "bg-primary text-primary-foreground",
     },
     {
       key: "form",
@@ -58,8 +61,7 @@ export function FloatingButtons() {
       external: false,
       label: "상담 신청",
       Icon: PencilLine,
-      style: { backgroundColor: "#3b8275" },
-      textClass: "text-white",
+      className: "bg-accent text-accent-foreground",
     },
   ].filter(Boolean) as {
     key: string
@@ -67,18 +69,20 @@ export function FloatingButtons() {
     external: boolean
     label: string
     Icon: typeof Phone
-    style: React.CSSProperties
-    textClass: string
+    /** 외부 브랜드 색(카카오·네이버)에만 사용 */
+    style?: React.CSSProperties
+    /** 우리 버튼은 테마 토큰 클래스로 */
+    className: string
   }[]
 
   return (
     <>
       {/* Mobile Bottom Bar */}
       <div className="fixed bottom-0 left-0 right-0 z-40 flex border-t border-border bg-background/95 backdrop-blur-md md:hidden">
-        {actions.map(({ key, href, external, label, Icon, style, textClass }) => {
+        {actions.map(({ key, href, external, label, Icon, style, className: colorClass }) => {
           const className = cn(
             "flex flex-1 items-center justify-center gap-2 py-3.5 text-sm font-medium transition-opacity hover:opacity-80",
-            textClass
+            colorClass
           )
           return external ? (
             <a
@@ -111,10 +115,10 @@ export function FloatingButtons() {
             transition={{ duration: 0.2 }}
             className="fixed bottom-8 right-8 z-40 hidden flex-col gap-3 md:flex"
           >
-            {actions.map(({ key, href, external, label, Icon, style, textClass }) => {
+            {actions.map(({ key, href, external, label, Icon, style, className: colorClass }) => {
               const className = cn(
                 "group relative flex size-14 items-center justify-center rounded-full shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl",
-                textClass
+                colorClass
               )
               const inner = (
                 <>

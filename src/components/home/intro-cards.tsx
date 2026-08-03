@@ -14,7 +14,7 @@ import { featureCards } from "@/data/home"
  */
 export function IntroCards() {
   return (
-    <section className="bg-card py-24 lg:py-32">
+    <section className="bg-card py-section-sm">
       <div className="container mx-auto px-4">
         <div className="mx-auto mb-16 max-w-2xl text-center">
           <h2 className="text-balance text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">

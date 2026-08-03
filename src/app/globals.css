@@ -45,6 +45,18 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  /*
+   * 섹션 여백 리듬.
+   * 이전에는 모든 섹션이 py-24 lg:py-32로 똑같아서 강약이 없었다.
+   * 전부 같은 간격이면 무엇이 중요한 섹션인지 읽히지 않는다.
+   *   lg  — 증거·결과처럼 오래 머물게 할 섹션
+   *   md  — 기본
+   *   sm  — 앞뒤가 이어지는 보조 섹션
+   */
+  --spacing-section-sm: 3.5rem;
+  --spacing-section: 5rem;
+  --spacing-section-lg: 7rem;
+
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);

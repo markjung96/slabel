@@ -15,7 +15,7 @@ export function Instructors() {
   if (instructors.length === 0) return null
 
   return (
-    <section className="bg-background py-24 lg:py-32">
+    <section className="bg-background py-section">
       <div className="container mx-auto px-4">
         <div className="mx-auto mb-14 max-w-2xl text-center">
           <h2 className="text-balance text-3xl font-bold tracking-tight md:text-4xl">

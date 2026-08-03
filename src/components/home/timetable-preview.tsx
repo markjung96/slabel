@@ -57,7 +57,7 @@ function PreviewPanel({ image, label }: { image: string | null; label: string })
 
 export function TimetablePreview({ middleImage, highImage }: TimetablePreviewProps) {
   return (
-    <section className="relative overflow-hidden bg-card py-24 lg:py-32">
+    <section className="relative overflow-hidden bg-card py-section-sm">
       <div className="container mx-auto px-4">
         {/* 영어 eyebrow "Schedule"과 스크롤 모션 제거 */}
         <div className="mx-auto mb-12 max-w-2xl text-center">

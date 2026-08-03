@@ -24,7 +24,7 @@ const benefits = [
 
 export function PtHighlight() {
   return (
-    <section className="w-full bg-foreground py-24 lg:py-32">
+    <section className="w-full bg-foreground py-section">
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-3xl">
           <h2 className="text-balance text-3xl font-bold tracking-tight text-background md:text-4xl lg:text-5xl">

@@ -6,7 +6,7 @@ import { siteConfig } from "@/data/site"
 
 export function ConsultationCta() {
   return (
-    <section className="relative w-full overflow-hidden bg-secondary py-24 lg:py-32">
+    <section className="relative w-full overflow-hidden bg-secondary py-section-lg">
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-3xl text-center">
           {/* 영어 eyebrow "Get Started"와 스크롤 모션 제거 */}

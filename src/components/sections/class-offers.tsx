@@ -19,7 +19,7 @@ export function ClassOffers() {
   const won = new Intl.NumberFormat("ko-KR")
 
   return (
-    <section className="bg-card py-24 lg:py-32">
+    <section className="bg-card py-section">
       <div className="container mx-auto px-4">
         <div className="mx-auto mb-14 max-w-2xl text-center">
           <h2 className="text-balance text-3xl font-bold tracking-tight md:text-4xl">

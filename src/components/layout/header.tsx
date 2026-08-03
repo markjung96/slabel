@@ -115,7 +115,12 @@ export function Header() {
           {consultationItem && (
             <Link
               href={consultationItem.href}
-              className="ml-4 group inline-flex h-9 items-center justify-center gap-1.5 rounded-lg bg-foreground px-4 text-sm font-medium text-background transition-all hover:bg-foreground/90"
+              /*
+               * 강조색은 "지금 해야 할 행동" 하나에만 쓴다.
+               * 헤더는 검정, 히어로는 초록이면 같은 액션이 두 색으로 보인다.
+               * 사이트 전체에서 상담 신청 = accent 로 통일한다.
+               */
+              className="ml-4 group inline-flex h-9 items-center justify-center gap-1.5 rounded-lg bg-accent px-4 text-sm font-medium text-accent-foreground transition-all hover:bg-accent/90"
             >
               {consultationItem.label}
               <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
