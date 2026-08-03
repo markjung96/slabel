@@ -29,7 +29,8 @@ export function HeroCarousel() {
                 <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#3b8275] opacity-75" />
                 <span className="relative inline-flex size-2 rounded-full bg-[#3b8275]" />
               </span>
-              2025 신규 등록 상담 진행 중
+              {/* 연도를 하드코딩하면 해가 바뀌는 순간 방치된 사이트처럼 보인다 */}
+              {new Date().getFullYear()} 신규 등록 상담 진행 중
             </span>
           </motion.div>
 
@@ -92,14 +93,20 @@ export function HeroCarousel() {
             transition={{ duration: 0.5, delay: 0.4 }}
             className="mt-16 grid grid-cols-2 gap-8 rounded-2xl bg-white/60 px-8 py-6 backdrop-blur-sm ring-1 ring-[#22577a]/10 md:grid-cols-4 md:gap-12 md:px-12"
           >
+            {/*
+              근거를 댈 수 없는 수치("학부모 만족도 98%")는 신뢰를 얻는 게 아니라 깎는다.
+              검증 가능한 사실만 남긴다. 실제 설문/성적 데이터가 쌓이면
+              "2026년 재원 학부모 42명 설문, 만족 이상 41명"처럼 근거와 함께 교체할 것.
+            */}
             {[
-              { value: "10+", label: "년 교육 경력" },
+              { value: "중1–고3", label: "수학 전문" },
               { value: "1:1", label: "맞춤 PT 지도" },
-              { value: "98%", label: "학부모 만족도" },
+              { value: "타이머", label: "학습시간 관리" },
               { value: "소수정예", label: "집중 관리" },
             ].map((stat, index) => (
               <div key={index} className="text-center">
-                <p className="text-3xl font-bold text-[#22577a] md:text-4xl">
+                {/* 값이 두 줄로 깨지지 않게 고정한다 ("소수정예" → "소수정" + "예") */}
+                <p className="whitespace-nowrap text-2xl font-bold text-[#22577a] md:text-3xl">
                   {stat.value}
                 </p>
                 <p className="mt-1 text-sm text-[#4a4a4a]">{stat.label}</p>

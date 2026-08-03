@@ -51,3 +51,4 @@ public/images/uploads/
 
 # tmp
 tmp.txt
+!.env.example

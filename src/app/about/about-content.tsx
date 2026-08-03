@@ -26,6 +26,16 @@ const fadeInUp = {
 }
 
 export function AboutContent() {
+  /* 값이 채워진 교통편만 노출한다 — 추측 안내는 없는 것보다 나쁘다 */
+  const transportation = (
+    Object.entries(aboutContent.location.transportation) as [
+      keyof typeof transportationIcons,
+      string | null,
+    ][]
+  ).filter((entry): entry is [keyof typeof transportationIcons, string] =>
+    Boolean(entry[1])
+  )
+
   return (
     <main className="min-h-screen">
       <section className="py-16 md:py-24 bg-muted/30">
@@ -138,44 +148,41 @@ export function AboutContent() {
             <MapEmbeds />
           </motion.div>
 
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={{
-              hidden: {},
-              visible: { transition: { staggerChildren: 0.1 } },
-            }}
-            className="grid grid-cols-1 sm:grid-cols-3 gap-4"
-          >
-            {(
-              Object.entries(aboutContent.location.transportation) as [
-                keyof typeof transportationIcons,
-                string,
-              ][]
-            ).map(([key, value]) => {
-              const Icon = transportationIcons[key]
-              return (
-                <motion.div key={key} variants={fadeInUp}>
-                  <Card className="h-full">
-                    <CardHeader>
-                      <div className="flex items-center gap-2">
-                        <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/10">
-                          <Icon className="size-4 text-primary" />
+          {transportation.length > 0 && (
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={{
+                hidden: {},
+                visible: { transition: { staggerChildren: 0.1 } },
+              }}
+              className="grid grid-cols-1 sm:grid-cols-3 gap-4"
+            >
+              {transportation.map(([key, value]) => {
+                const Icon = transportationIcons[key]
+                return (
+                  <motion.div key={key} variants={fadeInUp}>
+                    <Card className="h-full">
+                      <CardHeader>
+                        <div className="flex items-center gap-2">
+                          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/10">
+                            <Icon className="size-4 text-primary" />
+                          </div>
+                          <CardTitle className="text-sm font-semibold">
+                            {transportationLabels[key]}
+                          </CardTitle>
                         </div>
-                        <CardTitle className="text-sm font-semibold">
-                          {transportationLabels[key]}
-                        </CardTitle>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-muted-foreground">{value}</p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              )
-            })}
-          </motion.div>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-sm text-muted-foreground">{value}</p>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                )
+              })}
+            </motion.div>
+          )}
         </div>
       </section>
     </main>

@@ -60,18 +60,32 @@ export function ConsultationCta() {
               상담 신청하기
               <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
             </Link>
-            <a
-              href={siteConfig.kakaoChannelUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn(
-                buttonVariants({ variant: "outline", size: "lg" }),
-                "gap-2 border-foreground/20 px-8"
-              )}
-            >
-              <MessageCircle className="size-4" />
-              카카오톡 상담
-            </a>
+            {/* 카톡 채널이 없으면 전화로 대체한다 — 죽은 링크를 CTA에 두지 않는다 */}
+            {siteConfig.kakaoChannelUrl ? (
+              <a
+                href={siteConfig.kakaoChannelUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(
+                  buttonVariants({ variant: "outline", size: "lg" }),
+                  "gap-2 border-foreground/20 px-8"
+                )}
+              >
+                <MessageCircle className="size-4" />
+                카카오톡 상담
+              </a>
+            ) : (
+              <a
+                href={`tel:${siteConfig.phone}`}
+                className={cn(
+                  buttonVariants({ variant: "outline", size: "lg" }),
+                  "gap-2 border-foreground/20 px-8"
+                )}
+              >
+                <Phone className="size-4" />
+                {siteConfig.phone}
+              </a>
+            )}
           </motion.div>
 
           {/* Contact Info */}

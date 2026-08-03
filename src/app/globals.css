@@ -7,7 +7,14 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  /*
+   * 예전에는 `--font-sans: var(--font-sans)`로 자기 자신을 참조하고 있었다.
+   * 순환 참조라 브라우저가 값을 통째로 버리고 기본 폰트(세리프)로 폴백해서
+   * Pretendard를 넣어놨는데도 사이트 전체가 엉뚱한 서체로 보였다.
+   * next/font가 주입하는 --font-pretendard를 가리키도록 분리한다.
+   */
+  --font-sans: var(--font-pretendard), -apple-system, BlinkMacSystemFont,
+    "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);

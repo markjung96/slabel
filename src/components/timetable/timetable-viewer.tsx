@@ -2,9 +2,12 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { CalendarIcon } from "lucide-react"
+import Link from "next/link"
+import { CalendarIcon, Phone } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { buttonVariants } from "@/components/ui/button"
+import { siteConfig } from "@/data/site"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import {
   Select,
@@ -91,12 +94,35 @@ interface GradeDisplayProps {
 function GradeDisplay({ grade, onImageClick }: GradeDisplayProps) {
   const [loaded, setLoaded] = useState(false)
 
+  /**
+   * 빈 상태를 "준비 중입니다"로 끝내면 학부모는 그대로 이탈한다.
+   * 시간표가 아직 없더라도 다음 행동(전화/상담신청)으로 연결한다.
+   */
   if (!grade.image) {
     return (
-      <div className="flex min-h-[400px] flex-col items-center justify-center gap-4 rounded-xl border border-dashed border-border bg-muted/30 text-muted-foreground">
+      <div className="flex min-h-[400px] flex-col items-center justify-center gap-4 rounded-xl border border-dashed border-border bg-muted/30 px-6 text-center text-muted-foreground">
         <CalendarIcon className="size-12 opacity-40" />
-        <p className="text-base font-medium">준비 중입니다</p>
-        <p className="text-sm">{grade.label} 시간표를 준비하고 있습니다.</p>
+        <p className="text-base font-medium text-foreground">
+          {grade.label} 시간표는 반 편성에 따라 개별 안내드립니다
+        </p>
+        <p className="text-sm">
+          현재 개설된 반과 잔여 자리를 바로 확인해드립니다.
+        </p>
+        <div className="mt-2 flex flex-wrap justify-center gap-2">
+          <a
+            href={`tel:${siteConfig.phone}`}
+            className={cn(buttonVariants({ size: "sm" }), "gap-1.5")}
+          >
+            <Phone className="size-3.5" />
+            {siteConfig.phone}
+          </a>
+          <Link
+            href="/consultation"
+            className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
+          >
+            상담 신청하기
+          </Link>
+        </div>
       </div>
     )
   }

@@ -74,6 +74,10 @@ export interface ConsultationFormData {
   privacyConsent: boolean
 }
 
+/**
+ * 아직 실제 값이 준비되지 않은 채널은 null로 둔다.
+ * null인 채널은 UI에서 렌더링하지 않는다 (죽은 링크 노출 방지).
+ */
 export interface SiteConfig {
   name: string
   description: string
@@ -81,10 +85,10 @@ export interface SiteConfig {
   logo: string
   address: string
   phone: string
-  email: string
-  kakaoChannelUrl: string
-  naverTalkUrl: string
-  blogUrl: string
+  email: string | null
+  kakaoChannelUrl: string | null
+  naverTalkUrl: string | null
+  blogUrl: string | null
   naverMapUrl: string
   kakaoMapUrl: string
 }

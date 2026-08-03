@@ -14,9 +14,11 @@ const pretendard = localFont({
     {
       path: "../../public/fonts/PretendardVariable.woff2",
       style: "normal",
+      /* 가변 폰트의 지원 굵기 범위. 없으면 굵기가 합성돼 뭉개진다 */
+      weight: "45 920",
     },
   ],
-  variable: "--font-sans",
+  variable: "--font-pretendard",
   display: "swap",
   fallback: [
     "-apple-system",
@@ -62,7 +64,13 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="ko">
+    /*
+     * 폰트 변수 클래스는 반드시 <html>에 붙여야 한다.
+     * globals.css가 `html { @apply font-sans }`로 <html>에서 var(--font-pretendard)를
+     * 읽는데, 이 클래스가 <body>에 있으면 <html> 스코프에는 변수가 없어서
+     * 폰트가 통째로 브라우저 기본 세리프로 폴백된다.
+     */
+    <html lang="ko" className={pretendard.variable}>
       <head>
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
@@ -77,7 +85,7 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body className={`${pretendard.variable} antialiased`}>
+      <body className="antialiased">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

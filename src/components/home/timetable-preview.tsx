@@ -1,13 +1,62 @@
 "use client"
 
 import Link from "next/link"
-import { CalendarDays, ArrowRight } from "lucide-react"
+import Image from "next/image"
+import { CalendarDays, ArrowRight, Phone } from "lucide-react"
 import { motion } from "framer-motion"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { buttonVariants } from "@/components/ui/button"
+import { siteConfig } from "@/data/site"
 import { cn } from "@/lib/utils"
 
-export function TimetablePreview() {
+interface TimetablePreviewProps {
+  middleImage: string | null
+  highImage: string | null
+}
+
+/**
+ * 시간표가 아직 없을 때 "이미지가 이곳에 표시됩니다" 같은
+ * 개발용 문구를 메인 화면에 그대로 노출하면 안 된다.
+ * 이미지가 있으면 보여주고, 없으면 문의로 연결한다.
+ */
+function PreviewPanel({ image, label }: { image: string | null; label: string }) {
+  if (image) {
+    return (
+      <div className="mt-8 overflow-hidden rounded-2xl border border-border bg-background shadow-sm">
+        <Image
+          src={image}
+          alt={`${label} 시간표`}
+          width={1200}
+          height={900}
+          className="h-auto w-full object-contain"
+        />
+      </div>
+    )
+  }
+
+  return (
+    <div className="mt-8 flex flex-col items-center justify-center gap-4 rounded-2xl border border-border bg-background px-6 py-20 text-center shadow-sm">
+      <div className="flex size-16 items-center justify-center rounded-full bg-muted">
+        <CalendarDays className="size-8 text-muted-foreground" />
+      </div>
+      <p className="font-medium text-foreground">
+        {label} 반 편성은 학년별로 개별 안내드립니다
+      </p>
+      <p className="max-w-md text-sm text-muted-foreground">
+        현재 개설된 반과 잔여 자리를 바로 확인해드립니다.
+      </p>
+      <a
+        href={`tel:${siteConfig.phone}`}
+        className={cn(buttonVariants({ size: "sm" }), "mt-2 gap-1.5")}
+      >
+        <Phone className="size-3.5" />
+        {siteConfig.phone}
+      </a>
+    </div>
+  )
+}
+
+export function TimetablePreview({ middleImage, highImage }: TimetablePreviewProps) {
   return (
     <section className="relative overflow-hidden bg-card py-24 lg:py-32">
       <div className="container mx-auto px-4">
@@ -60,21 +109,11 @@ export function TimetablePreview() {
             </div>
 
             <TabsContent value="middle">
-              <div className="mt-8 flex flex-col items-center justify-center gap-4 rounded-2xl border border-border bg-background py-20 text-center shadow-sm">
-                <div className="flex size-16 items-center justify-center rounded-full bg-muted">
-                  <CalendarDays className="size-8 text-muted-foreground" />
-                </div>
-                <p className="text-muted-foreground">중등부 시간표 이미지가 이곳에 표시됩니다.</p>
-              </div>
+              <PreviewPanel image={middleImage} label="중등부" />
             </TabsContent>
 
             <TabsContent value="high">
-              <div className="mt-8 flex flex-col items-center justify-center gap-4 rounded-2xl border border-border bg-background py-20 text-center shadow-sm">
-                <div className="flex size-16 items-center justify-center rounded-full bg-muted">
-                  <CalendarDays className="size-8 text-muted-foreground" />
-                </div>
-                <p className="text-muted-foreground">고등부 시간표 이미지가 이곳에 표시됩니다.</p>
-              </div>
+              <PreviewPanel image={highImage} label="고등부" />
             </TabsContent>
           </Tabs>
 
