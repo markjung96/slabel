@@ -32,7 +32,8 @@ export function TargetProfiles() {
               {profile.image && (
                 <Image
                   src={profile.image}
-                  alt=""
+                  /* 시험지·오답노트 사진은 장식이 아니라 내용이다. alt=""로 두면 안 된다 */
+                  alt={profile.situation}
                   width={600}
                   height={400}
                   className="h-48 w-full object-cover"

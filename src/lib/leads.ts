@@ -1,7 +1,7 @@
 import fs from "fs/promises"
 import path from "path"
 import crypto from "crypto"
-import { put, list } from "@vercel/blob"
+import { put, list, del } from "@vercel/blob"
 
 import type { ConsultationFormData } from "@/types"
 
@@ -99,7 +99,41 @@ export async function saveLead(
   return lead
 }
 
-export async function listLeads(): Promise<Lead[]> {
+/**
+ * 개인정보처리방침에 "상담 신청일로부터 6개월이 지나면 파기"라고 고지한다.
+ * 고지만 하고 지우는 수단이 없으면 방침을 지킬 수 없다.
+ */
+export const RETENTION_DAYS = 180
+
+/**
+ * 보관기간 판정은 데이터를 읽을 때 한 번만 한다.
+ * 컴포넌트 안에서 Date.now()를 부르면
+ *  - 목록 안에서 항목마다 기준 시각이 달라질 수 있고
+ *  - React Compiler가 순수하지 않은 호출로 잡는다.
+ */
+export type LeadWithStatus = Lead & { expired: boolean }
+
+function markExpiry(leads: Lead[]): LeadWithStatus[] {
+  const cutoff = Date.now() - RETENTION_DAYS * 24 * 60 * 60 * 1000
+  return leads.map((lead) => ({
+    ...lead,
+    expired: new Date(lead.createdAt).getTime() < cutoff,
+  }))
+}
+
+export async function deleteLead(id: string): Promise<void> {
+  /* id는 사용자 입력이 아니라 우리가 생성한 값이지만, 경로 조작은 막아둔다 */
+  if (!/^[0-9TZ.\-a-f]+$/.test(id)) throw new Error("Invalid lead id")
+
+  if (useBlob) {
+    const { blobs } = await list({ prefix: `${BLOB_PREFIX}/${id}.enc` })
+    await Promise.all(blobs.map((b) => del(b.url).catch(() => {})))
+    return
+  }
+  await fs.unlink(path.join(LOCAL_DIR, `${id}.enc`)).catch(() => {})
+}
+
+export async function listLeads(): Promise<LeadWithStatus[]> {
   let contents: string[] = []
 
   if (useBlob) {
@@ -120,7 +154,7 @@ export async function listLeads(): Promise<Lead[]> {
     )
   }
 
-  return contents
+  const parsed = contents
     .map((raw) => {
       if (!raw) return null
       try {
@@ -132,4 +166,6 @@ export async function listLeads(): Promise<Lead[]> {
     })
     .filter((l): l is Lead => l !== null)
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+
+  return markExpiry(parsed)
 }

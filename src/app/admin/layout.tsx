@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import { Button } from "@/components/ui/button"
+import { StorageNotice } from "@/components/admin/storage-notice"
 import { LayoutDashboard, Clock, BookOpen, Inbox, LogOut } from "lucide-react"
 
 const navItems = [
@@ -50,7 +51,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
       </aside>
 
-      <main className="ml-56 flex-1 p-6">
+      <main className="ml-56 flex-1 space-y-6 p-6">
+        {/* 업로드가 조용히 사라지는 상황을 관리자가 모르면 안 된다 */}
+        <StorageNotice />
         {children}
       </main>
     </div>

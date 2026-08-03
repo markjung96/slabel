@@ -40,9 +40,9 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider mb-6">
+            <h2 className="text-sm font-semibold uppercase tracking-wider mb-6">
               메뉴
-            </h3>
+            </h2>
             <ul className="space-y-3">
               {navigationItems.slice(0, 5).map((item) => (
                 <li key={item.href}>
@@ -59,9 +59,9 @@ export function Footer() {
 
           {/* Chat Support */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider mb-6">
+            <h2 className="text-sm font-semibold uppercase tracking-wider mb-6">
               상담
-            </h3>
+            </h2>
             {/* 미개설 채널은 렌더링하지 않는다 — 죽은 링크는 없는 링크보다 나쁘다 */}
             <ul className="space-y-3">
               {siteConfig.kakaoChannelUrl && (
@@ -119,9 +119,9 @@ export function Footer() {
 
           {/* Location */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider mb-6">
+            <h2 className="text-sm font-semibold uppercase tracking-wider mb-6">
               오시는 길
-            </h3>
+            </h2>
             <ul className="space-y-3">
               <li>
                 <a
