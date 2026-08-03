@@ -33,6 +33,15 @@ export default function BlogPage() {
           <p className="mt-3 text-muted-foreground">스라밸학원의 교육 이야기를 만나보세요.</p>
         </div>
 
+        {blogCards.length === 0 && (
+          <div className="mx-auto flex max-w-md flex-col items-center gap-3 rounded-xl border border-dashed border-border bg-muted/30 px-6 py-16 text-center">
+            <p className="font-medium text-foreground">첫 글을 준비하고 있습니다</p>
+            <p className="text-sm text-muted-foreground">
+              흥덕중·흥덕고 시험 분석과 학습 관리 사례를 곧 올릴 예정입니다.
+            </p>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {blogCards.map((post, index) => (
             <a
@@ -59,17 +68,20 @@ export default function BlogPage() {
           ))}
         </div>
 
-        <div className="mt-16 flex justify-center">
-          <a
-            href={siteConfig.blogUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 h-9 rounded-lg border border-border bg-background px-4 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          >
-            <ExternalLink className="size-4" />
-            네이버 블로그 방문하기
-          </a>
-        </div>
+        {/* 블로그가 개설되기 전에는 링크를 걸지 않는다 */}
+        {siteConfig.blogUrl && (
+          <div className="mt-16 flex justify-center">
+            <a
+              href={siteConfig.blogUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 h-9 rounded-lg border border-border bg-background px-4 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <ExternalLink className="size-4" />
+              네이버 블로그 방문하기
+            </a>
+          </div>
+        )}
       </div>
     </main>
   )

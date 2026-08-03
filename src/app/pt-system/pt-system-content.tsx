@@ -1,6 +1,5 @@
 "use client"
 
-import { motion } from "framer-motion"
 import { Check } from "lucide-react"
 import {
   Accordion,
@@ -10,23 +9,12 @@ import {
 } from "@/components/ui/accordion"
 import { ptSystemIntro, timerManagement, ptSteps, ptFeatures } from "@/data/pt-system"
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
-}
-
 export function PtSystemContent() {
   return (
     <main className="min-h-screen">
       <section className="py-16 md:py-24 bg-primary/5">
         <div className="container mx-auto px-4 md:px-6 max-w-6xl">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={fadeInUp}
-            className="flex flex-col items-center text-center gap-4 max-w-2xl mx-auto"
-          >
+          <div className="flex flex-col items-center text-center gap-4 max-w-2xl mx-auto">
             <p className="text-sm font-semibold text-primary uppercase tracking-widest">
               {ptSystemIntro.subtitle}
             </p>
@@ -35,19 +23,13 @@ export function PtSystemContent() {
             <p className="text-base text-muted-foreground leading-relaxed">
               {ptSystemIntro.description}
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       <section className="py-16 md:py-24 bg-muted">
         <div className="container mx-auto px-4 md:px-6 max-w-6xl">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={fadeInUp}
-            className="max-w-2xl mx-auto space-y-6"
-          >
+          <div className="max-w-2xl mx-auto space-y-6">
             <div className="text-center space-y-3">
               <h2 className="text-2xl md:text-3xl font-bold">
                 {timerManagement.title}
@@ -67,37 +49,21 @@ export function PtSystemContent() {
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4 md:px-6 max-w-6xl space-y-10">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={fadeInUp}
-            className="text-center space-y-3"
-          >
+          <div className="text-center space-y-3">
             <h2 className="text-2xl md:text-3xl font-bold">학습 프로세스</h2>
             <div className="h-1 w-12 rounded-full bg-primary mx-auto" />
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={{
-              hidden: {},
-              visible: { transition: { staggerChildren: 0.1 } },
-            }}
-            className="flex flex-col md:flex-row gap-4 md:gap-2"
-          >
+          <div className="flex flex-col md:flex-row gap-4 md:gap-2">
             {ptSteps.map((step, index) => (
-              <motion.div
+              <div
                 key={step.step}
-                variants={fadeInUp}
                 className="flex md:flex-col flex-1 items-start md:items-center gap-4 md:gap-3 relative"
               >
                 {index < ptSteps.length - 1 && (
@@ -116,31 +82,20 @@ export function PtSystemContent() {
                     {step.description}
                   </p>
                 </div>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-4 md:px-6 max-w-6xl space-y-10">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={fadeInUp}
-            className="text-center space-y-3"
-          >
+          <div className="text-center space-y-3">
             <h2 className="text-2xl md:text-3xl font-bold">시스템 특징</h2>
             <div className="h-1 w-12 rounded-full bg-primary mx-auto" />
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={fadeInUp}
-          >
+          <div>
             <Accordion>
               {ptFeatures.map((feature) => (
                 <AccordionItem key={feature.title} value={feature.title}>
@@ -167,7 +122,7 @@ export function PtSystemContent() {
                 </AccordionItem>
               ))}
             </Accordion>
-          </motion.div>
+          </div>
         </div>
       </section>
     </main>

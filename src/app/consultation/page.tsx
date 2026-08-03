@@ -31,13 +31,16 @@ export default function ConsultationPage() {
               <Phone className="size-4" />
               {siteConfig.phone}
             </a>
-            <a
-              href={`mailto:${siteConfig.email}`}
-              className="flex items-center gap-2 hover:text-foreground transition-colors"
-            >
-              <Mail className="size-4" />
-              {siteConfig.email}
-            </a>
+            {/* 이메일이 확정되기 전까지는 노출하지 않는다 (mailto:null 방지) */}
+            {siteConfig.email && (
+              <a
+                href={`mailto:${siteConfig.email}`}
+                className="flex items-center gap-2 hover:text-foreground transition-colors"
+              >
+                <Mail className="size-4" />
+                {siteConfig.email}
+              </a>
+            )}
           </div>
         </div>
       </div>

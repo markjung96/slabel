@@ -7,7 +7,14 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  /*
+   * 예전에는 `--font-sans: var(--font-sans)`로 자기 자신을 참조하고 있었다.
+   * 순환 참조라 브라우저가 값을 통째로 버리고 기본 폰트(세리프)로 폴백해서
+   * Pretendard를 넣어놨는데도 사이트 전체가 엉뚱한 서체로 보였다.
+   * next/font가 주입하는 --font-pretendard를 가리키도록 분리한다.
+   */
+  --font-sans: var(--font-pretendard), -apple-system, BlinkMacSystemFont,
+    "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -115,6 +122,34 @@
   --sidebar-accent-foreground: oklch(0.95 0.01 85);
   --sidebar-border: oklch(1 0 0 / 12%);
   --sidebar-ring: oklch(0.55 0.12 145);
+}
+
+@layer components {
+  /*
+   * 섹션 여백 리듬.
+   *
+   * 앞서 --spacing-section 토큰(5rem 고정)으로 만들었다가 되돌렸다.
+   * 반응형이 없어서 데스크톱에서 기존(py-32 = 8rem)보다 오히려 좁아졌고,
+   * 전체 여백이 무너져 보였다. 화면이 넓어지면 여백도 같이 커져야 한다.
+   *
+   *   lg — 결과·프로그램처럼 오래 머물게 할 섹션
+   *   기본
+   *   sm — 앞뒤가 이어지는 보조 섹션
+   */
+  .section-y-sm {
+    @apply py-16 lg:py-24;
+  }
+  .section-y {
+    @apply py-24 lg:py-32;
+  }
+  .section-y-lg {
+    @apply py-28 lg:py-40;
+  }
+
+  /* 섹션 머리말 — 제목과 본문 사이 간격을 한 곳에서 관리한다 */
+  .section-head {
+    @apply mb-12 lg:mb-16;
+  }
 }
 
 @layer base {

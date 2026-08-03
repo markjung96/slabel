@@ -4,6 +4,12 @@ import { uploadImage, uploadTimetableImage } from "@/lib/storage"
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"]
 const MAX_SIZE = 5 * 1024 * 1024
+const ALLOWED_CATEGORIES = [
+  "timetable",
+  "curriculum",
+  "curriculum-middle",
+  "curriculum-high",
+]
 
 export async function POST(request: NextRequest) {
   const authenticated = await isAuthenticated()
@@ -21,7 +27,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: "파일이 없습니다." }, { status: 400 })
     }
 
-    if (!category || !["timetable", "curriculum"].includes(category)) {
+    /**
+     * 관리자 커리큘럼 페이지는 "curriculum-middle"/"curriculum-high"로 업로드하는데
+     * 여기서는 "curriculum"만 허용하고 있어 커리큘럼 업로드가 전부 400으로 거절됐다.
+     * 관리자 화면이 실제로 쓰는 카테고리를 허용한다.
+     */
+    if (!category || !ALLOWED_CATEGORIES.includes(category)) {
       return NextResponse.json({ success: false, error: "올바른 카테고리가 아닙니다." }, { status: 400 })
     }
 

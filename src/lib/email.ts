@@ -16,15 +16,27 @@ function escapeHtml(str: string): string {
 
 export async function sendConsultationEmail(data: ConsultationFormData): Promise<EmailResult> {
   const apiKey = process.env.RESEND_API_KEY
+  const recipientEmail = process.env.NOTIFICATION_EMAIL
 
-  if (!apiKey) {
-    console.log("[Email Stub] 상담신청 알림:")
-    console.log(JSON.stringify(data, null, 2))
-    console.log("[Email Stub] RESEND_API_KEY가 설정되지 않아 이메일을 전송하지 않았습니다.")
-    return { success: true }
+  /**
+   * 예전에는 키가 없으면 콘솔에만 찍고 success: true를 돌려줬다.
+   * 그 결과 학부모에게는 "상담 신청이 완료되었습니다"가 뜨지만
+   * 원장에게는 아무것도 도착하지 않는 상태로 문의가 통째로 유실됐다.
+   * 설정이 안 됐으면 조용히 성공하지 말고 반드시 실패시킨다.
+   */
+  if (!apiKey || !recipientEmail) {
+    console.error(
+      "[Email] RESEND_API_KEY 또는 NOTIFICATION_EMAIL 미설정 — 상담 신청이 전달되지 않습니다.",
+      { hasApiKey: Boolean(apiKey), hasRecipient: Boolean(recipientEmail) }
+    )
+    if (process.env.NODE_ENV !== "production") {
+      console.warn("[Email][dev] 접수된 내용:", JSON.stringify(data, null, 2))
+    }
+    return {
+      success: false,
+      error: "상담 접수 시스템 점검 중입니다. 번거로우시겠지만 전화로 문의해주세요.",
+    }
   }
-
-  const recipientEmail = process.env.NOTIFICATION_EMAIL || "slabel@example.com"
 
   const htmlContent = `
     <h2>새로운 상담 신청이 접수되었습니다</h2>
@@ -48,7 +60,12 @@ export async function sendConsultationEmail(data: ConsultationFormData): Promise
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: "스라밸학원 <noreply@slabel.vercel.app>",
+      /**
+       * Resend는 발신 도메인이 검증돼 있어야만 발송된다.
+       * 검증되지 않은 도메인을 쓰면 403으로 전부 실패한다.
+       * 도메인 인증 전에는 Resend가 제공하는 onboarding@resend.dev를 쓴다.
+       */
+      from: process.env.EMAIL_FROM || "스라밸학원 <onboarding@resend.dev>",
       to: [recipientEmail],
       subject: `[상담신청] ${escapeHtml(data.name)}님의 상담 신청이 접수되었습니다`,
       html: htmlContent,
@@ -57,8 +74,11 @@ export async function sendConsultationEmail(data: ConsultationFormData): Promise
 
   if (!response.ok) {
     const error = await response.text()
-    console.error("[Email Error]", error)
-    return { success: false, error: "이메일 발송에 실패했습니다." }
+    console.error("[Email Error]", response.status, error)
+    return {
+      success: false,
+      error: "상담 접수에 실패했습니다. 번거로우시겠지만 전화로 문의해주세요.",
+    }
   }
 
   return { success: true }

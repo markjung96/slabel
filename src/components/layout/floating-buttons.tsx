@@ -1,12 +1,18 @@
 "use client"
 
-import { MessageCircle, MessageSquare } from "lucide-react"
+import Link from "next/link"
+import { MessageCircle, MessageSquare, Phone, PencilLine } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useState, useEffect } from "react"
 
 import { siteConfig } from "@/data/site"
 import { cn } from "@/lib/utils"
 
+/**
+ * 모바일 하단 바는 이 사이트에서 전환율이 가장 높은 자리다.
+ * 카톡 채널/톡톡이 아직 없으면 죽은 링크를 띄우는 대신
+ * 실제로 연결되는 전화·상담신청으로 대체한다.
+ */
 export function FloatingButtons() {
   const [isVisible, setIsVisible] = useState(false)
 
@@ -18,30 +24,85 @@ export function FloatingButtons() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  const actions = [
+    siteConfig.kakaoChannelUrl && {
+      key: "kakao",
+      href: siteConfig.kakaoChannelUrl,
+      external: true,
+      label: "카카오톡 상담",
+      Icon: MessageCircle,
+      style: { backgroundColor: "#FEE500", color: "#000000" },
+      className: "",
+    },
+    siteConfig.naverTalkUrl && {
+      key: "naver",
+      href: siteConfig.naverTalkUrl,
+      external: true,
+      label: "네이버 톡톡",
+      Icon: MessageSquare,
+      style: { backgroundColor: "#03C75A" },
+      className: "text-white",
+    },
+    /*
+     * 카카오(#FEE500)·네이버(#03C75A)는 외부 브랜드 색이라 하드코딩이 맞다.
+     * 우리 버튼은 테마 토큰을 쓴다 — 사이트 팔레트와 어긋나면 안 된다.
+     */
+    {
+      key: "tel",
+      href: `tel:${siteConfig.phone}`,
+      external: false,
+      label: "전화 상담",
+      Icon: Phone,
+      className: "bg-primary text-primary-foreground",
+    },
+    {
+      key: "form",
+      href: "/consultation",
+      external: false,
+      label: "상담 신청",
+      Icon: PencilLine,
+      className: "bg-accent text-accent-foreground",
+    },
+  ].filter(Boolean) as {
+    key: string
+    href: string
+    external: boolean
+    label: string
+    Icon: typeof Phone
+    /** 외부 브랜드 색(카카오·네이버)에만 사용 */
+    style?: React.CSSProperties
+    /** 우리 버튼은 테마 토큰 클래스로 */
+    className: string
+  }[]
+
   return (
     <>
       {/* Mobile Bottom Bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 flex md:hidden border-t border-border bg-background/95 backdrop-blur-md">
-        <a
-          href={siteConfig.kakaoChannelUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex flex-1 items-center justify-center gap-2 py-3.5 text-sm font-medium transition-opacity hover:opacity-80"
-          style={{ backgroundColor: "#FEE500", color: "#000000" }}
-        >
-          <MessageCircle className="size-5" />
-          카카오톡 상담
-        </a>
-        <a
-          href={siteConfig.naverTalkUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex flex-1 items-center justify-center gap-2 py-3.5 text-sm font-medium text-white transition-opacity hover:opacity-80"
-          style={{ backgroundColor: "#03C75A" }}
-        >
-          <MessageSquare className="size-5" />
-          네이버 톡톡
-        </a>
+      <div className="fixed bottom-0 left-0 right-0 z-40 flex border-t border-border bg-background/95 backdrop-blur-md md:hidden">
+        {actions.map(({ key, href, external, label, Icon, style, className: colorClass }) => {
+          const className = cn(
+            "flex flex-1 items-center justify-center gap-2 py-3.5 text-sm font-medium transition-opacity hover:opacity-80",
+            colorClass
+          )
+          return external ? (
+            <a
+              key={key}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={className}
+              style={style}
+            >
+              <Icon className="size-5" />
+              {label}
+            </a>
+          ) : (
+            <Link key={key} href={href} className={className} style={style}>
+              <Icon className="size-5" />
+              {label}
+            </Link>
+          )
+        })}
       </div>
 
       {/* Desktop Floating Buttons */}
@@ -52,38 +113,45 @@ export function FloatingButtons() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-8 right-8 z-40 hidden md:flex flex-col gap-3"
+            className="fixed bottom-8 right-8 z-40 hidden flex-col gap-3 md:flex"
           >
-            <a
-              href={siteConfig.kakaoChannelUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn(
-                "group relative flex items-center justify-center size-14 rounded-full shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl",
-              )}
-              style={{ backgroundColor: "#FEE500", color: "#000000" }}
-              aria-label="카카오톡 채널 상담"
-            >
-              <MessageCircle className="size-6" />
-              <span className="absolute right-full mr-3 whitespace-nowrap rounded-lg bg-foreground px-3 py-2 text-sm font-medium text-background opacity-0 shadow-lg transition-opacity group-hover:opacity-100">
-                카카오톡 상담
-              </span>
-            </a>
-            <a
-              href={siteConfig.naverTalkUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn(
-                "group relative flex items-center justify-center size-14 rounded-full shadow-lg text-white transition-all duration-300 hover:scale-110 hover:shadow-xl",
-              )}
-              style={{ backgroundColor: "#03C75A" }}
-              aria-label="네이버 톡톡 상담"
-            >
-              <MessageSquare className="size-6" />
-              <span className="absolute right-full mr-3 whitespace-nowrap rounded-lg bg-foreground px-3 py-2 text-sm font-medium text-background opacity-0 shadow-lg transition-opacity group-hover:opacity-100">
-                네이버 톡톡
-              </span>
-            </a>
+            {actions.map(({ key, href, external, label, Icon, style, className: colorClass }) => {
+              const className = cn(
+                "group relative flex size-14 items-center justify-center rounded-full shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl",
+                colorClass
+              )
+              const inner = (
+                <>
+                  <Icon className="size-6" />
+                  <span className="absolute right-full mr-3 whitespace-nowrap rounded-lg bg-foreground px-3 py-2 text-sm font-medium text-background opacity-0 shadow-lg transition-opacity group-hover:opacity-100">
+                    {label}
+                  </span>
+                </>
+              )
+              return external ? (
+                <a
+                  key={key}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={className}
+                  style={style}
+                  aria-label={label}
+                >
+                  {inner}
+                </a>
+              ) : (
+                <Link
+                  key={key}
+                  href={href}
+                  className={className}
+                  style={style}
+                  aria-label={label}
+                >
+                  {inner}
+                </Link>
+              )
+            })}
           </motion.div>
         )}
       </AnimatePresence>

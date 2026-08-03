@@ -1,68 +1,41 @@
-"use client"
-
 import Link from "next/link"
-import { Clock, Target, BarChart2, ArrowRight, CheckCircle2 } from "lucide-react"
-import { motion } from "framer-motion"
-import { buttonVariants } from "@/components/ui/button"
+import { ArrowRight } from "lucide-react"
+
+import { buttonVariants } from "@/components/ui/button-variants"
 import { cn } from "@/lib/utils"
 
-const keyPoints = [
-  { icon: Clock, label: "타이머 기반 집중 학습", description: "시간 관리를 통한 효율적 학습" },
-  { icon: Target, label: "1:1 맞춤 지도", description: "개인별 취약점 집중 보완" },
-  { icon: BarChart2, label: "실시간 성취도 추적", description: "데이터 기반 학습 분석" },
-]
-
-const benefits = [
-  "학습 패턴 분석을 통한 최적의 학습 시간 설계",
-  "타이머 관리로 집중력과 자기주도 학습 능력 강화",
-  "실시간 피드백으로 즉각적인 학습 방향 조정",
-  "체계적인 복습 시스템으로 장기 기억 정착",
+/**
+ * 아이콘 카드 3개를 걷어내면서 우측 컬럼이 통째로 비어
+ * 좌우 균형이 무너졌던 섹션. 2단 구성을 복구하되,
+ * 오른쪽은 아이콘이 아니라 실제 주간 리포트 형태로 채운다.
+ *
+ * 주장("데이터로 관리합니다") 대신 결과물을 보여주는 자리다.
+ * 실제 리포트 사진(QUESTIONS.md Q8)이 도착하면 이 목업을 사진으로 교체한다.
+ */
+const reportRows = [
+  { label: "이번 주 학습", value: "420분" },
+  { label: "과제 수행률", value: "85%" },
+  { label: "방정식 정답률", value: "62% → 81%" },
+  { label: "시간 부족 문항", value: "7개 → 3개" },
 ]
 
 export function PtHighlight() {
   return (
-    <section className="relative w-full overflow-hidden bg-foreground py-24 lg:py-32">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,_var(--tw-gradient-from)_0%,_transparent_50%)] from-background" />
-      </div>
-
-      <div className="container relative mx-auto px-4">
+    <section className="w-full bg-foreground section-y-lg">
+      <div className="container mx-auto px-4">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
-          {/* Left Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <span className="mb-4 inline-block text-sm font-semibold uppercase tracking-wider text-accent">
-              Our System
-            </span>
+          {/* 왼쪽 — 설명 */}
+          <div>
             <h2 className="text-balance text-3xl font-bold tracking-tight text-background md:text-4xl lg:text-5xl">
-              독자적 PT 시스템
+              시간을 재지 않으면
+              <br />
+              무엇이 느린지 알 수 없습니다
             </h2>
             <p className="mt-6 text-pretty text-lg leading-relaxed text-background/70">
-              스라밸학원만의 PT(Personal Training) 시스템은 학생의 학습 패턴을 분석하고
-              타이머 관리를 통해 집중력과 자기주도 학습 능력을 극대화합니다.
+              스라밸의 PT 시스템은 문제당 풀이시간을 기록합니다. 어느 유형에서
+              막히는지, 어디서 시간을 잃는지를 숫자로 확인하고 그 부분만 다시
+              시킵니다.
             </p>
-
-            {/* Benefits List */}
-            <ul className="mt-8 space-y-4">
-              {benefits.map((benefit, index) => (
-                <motion.li
-                  key={index}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="flex items-start gap-3"
-                >
-                  <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-accent" />
-                  <span className="text-background/80">{benefit}</span>
-                </motion.li>
-              ))}
-            </ul>
 
             <div className="mt-10">
               <Link
@@ -72,39 +45,37 @@ export function PtHighlight() {
                   "group gap-2 bg-background px-8 text-foreground hover:bg-background/90"
                 )}
               >
-                자세히 알아보기
+                PT 시스템 자세히 보기
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
-          </motion.div>
+          </div>
 
-          {/* Right Content - Key Points Cards */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="grid gap-4"
-          >
-            {keyPoints.map(({ icon: Icon, label, description }, index) => (
-              <motion.div
-                key={label}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3 + index * 0.1 }}
-                className="group flex items-start gap-5 rounded-2xl border border-background/10 bg-background/5 p-6 backdrop-blur-sm transition-colors hover:bg-background/10"
-              >
-                <div className="flex size-14 shrink-0 items-center justify-center rounded-xl bg-accent text-accent-foreground">
-                  <Icon className="size-6" />
+          {/* 오른쪽 — 주간 리포트 */}
+          <div className="rounded-2xl border border-background/15 bg-background/5 p-6 md:p-8">
+            <div className="flex items-baseline justify-between border-b border-background/15 pb-4">
+              <p className="font-semibold text-background">주간 학습 리포트</p>
+              <p className="text-sm text-background/50">중2 · 8주 과정</p>
+            </div>
+
+            <dl className="mt-2 divide-y divide-background/10">
+              {reportRows.map((row) => (
+                <div
+                  key={row.label}
+                  className="flex items-center justify-between py-3.5"
+                >
+                  <dt className="text-background/70">{row.label}</dt>
+                  <dd className="font-semibold tabular-nums text-background">
+                    {row.value}
+                  </dd>
                 </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-background">{label}</h3>
-                  <p className="mt-1 text-background/60">{description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+              ))}
+            </dl>
+
+            <p className="mt-4 border-t border-background/15 pt-4 text-sm text-background/60">
+              다음 주 보완 단원: 일차함수 그래프
+            </p>
+          </div>
         </div>
       </div>
     </section>
